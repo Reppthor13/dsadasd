@@ -19,6 +19,54 @@
             <div class="row text-center">
                 <h1 class="display-1">A szerver fut.</h1>
             </div>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fellepo</th>
+                            <th>Datum</th>
+                            <th>Jegyar</th>
+                            <th>Helyszin</th>
+                            <th>Varos</th>
+                            <th>Muveletek</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <script>
+            Tablazat();
+            function Tablazat(){
+                fetch("http://127.0.0.1:3000/api/events")
+                .then(x => x.json())
+                .then(Koncertek => {
+                    const tbody = document.getElementById("tbody");
+                    for(let i = 0; i < Koncertek.results.length; i++){
+                        const sor = document.createElement("tr");
+                        const fellepo = document.createElement("td");
+                        fellepo.textContent = Koncertek.results[i].fellepo_nev;
+                        const datum = document.createElement("td");
+                        datum.textContent = Koncertek.results[i].datum;
+                        const jegyar = document.createElement("td");
+                        jegyar.textContent = Koncertek.results[i].jegy_ar;
+                        const helyszin = document.createElement("td");
+                        helyszin.textContent = Koncertek.results[i].nev;
+                        const varos = document.createElement("td");
+                        varos.textContent = Koncertek.results[i].varos;
+                        const muveletek = document.createElement("button");
+                        muveletek.textContent = "Törlés";
+                        muveletek.addEventListener("click", () => Torles(Koncertek.results[i].id));
+                        sor.append(fellepo, datum, jegyar, helyszin, varos, muveletek);
+                        tbody.append(sor);
+                    }
+                });
+            }
+            function Torles(id){
+                alert(id);
+            }
+        </script>
     </body>
 </html>

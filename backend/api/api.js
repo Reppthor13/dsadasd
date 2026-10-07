@@ -41,4 +41,60 @@ router.get('/testsql', async (request, response) => {
     }
 });
 
+router.get("/events", async (req, res) => {
+    try{
+        const koncertek = await database.koncertek();
+        res.status(200).json({
+            message: "ez jo",
+            results: koncertek
+        });
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            message: "nem jo"
+        });
+    }
+});
+
+router.post("/events", async (req, res) => {
+    try{
+        const koncertek = await database.ujkoncert(req.body.fellepo_nev, req.body.datum, req.body.jegy_ar, req.body.helyszin_id);
+        res.status(200).json({
+            message: "ez jo"
+        });
+    }catch(error){
+        res.status(500).json({
+            message: "nem jo"
+        });
+    }
+});
+
+router.delete("/events:id", async (req, res) => {
+    try{
+        const koncertek = await database.koncertTorles();
+        res.status(200).json({
+            message: "ez jo",
+            results: koncertek
+        });
+    }catch(error){
+        res.status(500).json({
+            message: "nem jo"
+        });
+    }
+});
+
+router.get("/venues", async (req, res) => {
+    try{
+        const koncertek = await database.helyszinek();
+        res.status(200).json({
+            message: "ez jo",
+            results: koncertek
+        });
+    }catch(error){
+        res.status(500).json({
+            message: "nem jo"
+        });
+    }
+});
+
 module.exports = router;
